@@ -213,7 +213,6 @@ class Checker:
             if max_num < score.get(key):
                 max_num = score.get(key)
                 final_rhy = key
-        print(final_rhy)
         return final_rhy
 
 if __name__ == '__main__':
