@@ -16,15 +16,17 @@ class Checker:
         :param poem: 用户输入的诗词
         :return: 单句列表
         '''
+        poem = poem.strip()  # 去除多余空格
         sentences: list = re.split(r"[,，。？?！!]", poem)
-        sentences = sentences[:-1]  # 移除最后一个元素
+        if sentences[-1] == "":
+            sentences = sentences[:-1]  # 移除最后一个元素
         return sentences
 
     def getRule(self, rule_name: str, rhy_type):
         '''
         获取指定格律
-        :param rule_name:
-        :param rhy_type:
+        :param rule_name: 检验规则(规则名字)
+        :param rhy_type: 校验形式(律诗、词牌、不校验)
         :return:
         '''
         rule: str = ""
@@ -77,12 +79,25 @@ class Checker:
             for j in range(len(sentences[i])):
                 tone = self.getTonePattern(sentences[i][j], book)  # 获取单个字的韵律
                 standard = int(rule[i][j])  # 获取格律中的标准平仄
-                # 如果单个字同时发平仄音，则一定能满足平仄要求，只有以下两种情况不满足平仄要求，其他的都满足
-                if tone == rhy_config.TONE_LEVEL and (standard == rhy_config.TONE_OBLIQUE or standard == rhy_config.TONE_OBLIQUE_RHYME):
-                    res.append(CheckResult(i, j, True, False, []))  # 本字为平，要求为仄
-                if tone == rhy_config.TONE_OBLIQUE and (standard == rhy_config.TONE_LEVEL or standard == rhy_config.TONE_LEVEL_RHYME):
-                    res.append(CheckResult(i, j, True, False, []))  # 本字位仄，要求为平
+                if not self.pingze_eq(standard, tone):
+                    res.append(CheckResult(i, j, True, False, []))  # 不满足平仄要求
         return res
+
+    def pingze_eq(self, standard: int, tone: int):
+        '''
+        判断平仄是否相等
+        :param standard: 需要满足的格律
+        :param tone: 当前字符格律
+        :return:
+        '''
+        # 如果单个字同时发平仄音，则一定能满足平仄要求，只有以下两种情况不满足平仄要求，其他的都满足
+        if tone == rhy_config.TONE_LEVEL and (
+                standard == rhy_config.TONE_OBLIQUE or standard == rhy_config.TONE_OBLIQUE_RHYME):
+            return False  # 本字为平，要求为仄
+        if tone == rhy_config.TONE_OBLIQUE and (
+                standard == rhy_config.TONE_LEVEL or standard == rhy_config.TONE_LEVEL_RHYME):
+            return False  # 本字位仄，要求为平
+        return True  # 其他均满足平仄要求
 
     def checkRhyme(self, sentences: list, rule: list, rhyme: str, book: list, res: list):
         '''
@@ -98,12 +113,27 @@ class Checker:
         # 遍历句子
         for i in range(len(sentences)):
             for j in range(len(sentences[i])):
-                # 判断当前位置是否需要押韵(需要将规则从字符串转为数字)
-                if int(rule[i][j]) == rhy_config.TONE_LEVEL_RHYME or int(rule[i][j]) == rhy_config.TONE_OBLIQUE_RHYME:
-                    cur_rhy = self.getRhymeGroup(sentences[i][j], book)  # 当前字的韵律(列表)
-                    if rhyme not in cur_rhy:
-                        res.append(CheckResult(i, j, False, True, []))  # 不满足押韵条件
+                if not self.rhyme_eq(int(rule[i][j]), sentences[i][j], rhyme, book):
+                    res.append(CheckResult(i, j, False, True, []))  # 不满足押韵条件
         return res
+
+    def rhyme_eq(self, rule_chr: int, c: str, rhyme: str, book: list):
+        '''
+        判断单个字符是否满足押韵要求
+        :param rule_chr: 当前位置的格律要求
+        :param c: 当前字符
+        :param rhyme: 需要压的韵
+        :param book: 韵书
+        :return:
+        '''
+        if not (rule_chr == rhy_config.TONE_LEVEL_RHYME or rule_chr == rhy_config.TONE_OBLIQUE_RHYME):
+            return True  # 不需要押韵，满足要求
+        if rhyme == "" or rhyme is None:
+            return True  # 不需要押韵
+        cur_rhy = self.getRhymeGroup(c, book)  # 当前字的韵律(列表)
+        if rhyme not in cur_rhy:
+            return False  # 不满足押韵条件
+        return True
 
     def getTonePattern(self, c: str, book: list):
         '''
@@ -188,14 +218,20 @@ class Checker:
 
 if __name__ == '__main__':
     checker = Checker()
-    checker.getPoemRhyme('横看成岭侧成非，远近高低各不同。不识庐山真面飞，只缘身在此山唯。', "七绝平起首句入韵",
-                         rhy_config.LV_RHY_TYPE,
-                         rhy_config.rhymebooks["中华新韵"])
+    # print(checker.split_poem("   横看成岭侧成非，远近高低各不同。不识庐山真面飞，只缘身在此山唯。   "))
+    # checker.getPoemRhyme('横看成岭侧成非，远近高低各不同。不识庐山真面飞，只缘身在此山唯。', "七绝平起首句入韵",
+    #                      rhy_config.LV_RHY_TYPE,
+    #                      rhy_config.rhymebooks["中华新韵"])
 
     #print(checker.getTonePattern("去", rhy_config.rhymebooks["中华新韵"]))
     # checker.getRhymeGroup("云", rhy_config.rhymebooks["中华新韵"])
-    # checker.check('横看成岭侧成峰，远近高低各不同。不识庐山真面目，只缘身在此山中。',
-    #               "七绝平起首句入韵",
-    #               rhy_config.LV_RHY_TYPE,
-    #               rhy_config.rhymebooks["中华新韵"],
-    #               "庚")
+    s = '横看成岭侧成峰，远近高低各不韵。不识庐山真面目，只缘身在此山中。'
+    res = checker.check(s,
+                  "七绝平起首句入韵",
+                  rhy_config.LV_RHY_TYPE,
+                  rhy_config.rhymebooks["中华新韵"],
+                  "庚")
+    sentences = checker.split_poem(s)
+    for item in res:
+        item: CheckResult
+        print(sentences[item.row][item.column])
