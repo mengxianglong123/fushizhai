@@ -38,7 +38,7 @@ class Generator:
             encodes: list = []  # 编码列表
             need_add_word = random.randint(0, 1)  # 生成随机数用于判断本句是否需要加词
             # 首句需要从备选词中选词
-            if index == 0 or (need_add_word == 1 and len(select_words) != 0):  # todo 如果该句选中，也进入该流程
+            if index == 0 or (need_add_word == 1 and len(select_words) != 0):  # 如果该句选中，也进入该流程
                 rn = random.randint(0, len(select_words) - 1)  # 随机选择一个词作为起始
                 sentence += select_words[rn]  # 拼接
                 select_words.pop(rn)  # 拼接后需要删除
@@ -47,7 +47,7 @@ class Generator:
                 encodes = self.tokenizer.encode(sentence)[0:-1]
                 context = torch.tensor([encodes])  # 上下文
             else:
-                encodes = self.tokenizer.encode(",")[-2:-1]  # todo 如果新起一句，可以将逗号作为context
+                encodes = self.tokenizer.encode(",")[-2:-1]  # 如果新起一句，可以将逗号作为context
                 context = torch.tensor([encodes])
 
             while len(sentence) < len(line):
@@ -56,14 +56,14 @@ class Generator:
                 token = self.filter(output.logits[0, -1, :],
                                     int(rule[index][len(sentence)]),  # 需要转为int类型
                                     rhyme,
-                                    book)  # 筛选出满足要求的字符的编码
+                                    book)[0]  # 筛选出满足要求的字符的编码，返回列表，默认选第一个
                 context = torch.tensor([[token.unsqueeze(0)]])  # 更新上文
                 sentence += self.tokenizer.decode(token)  # 将当前筛选结果添加本句中
             if res == "":
                 res =  sentence
             else:
                 res = res + "，" + sentence
-            print(res)
+        return res
 
     def filter(self, logits, chr_rule: int, rhyme: str, book: list):
         '''
@@ -72,10 +72,11 @@ class Generator:
         :param chr_rule: 需要筛选字的格律
         :param rhyme: 韵脚
         :param book: 韵书
-        :return:
+        :return: 满足条件的结果列表
         '''
         # 选取topk列表
         datas, indexs = torch.topk(logits, common.top_k, largest=True)  # todo 如果生成效果差，可以考虑将索引shuffle
+        tokens: list = []
         # 遍历索引列表
         for item in indexs:
             c: str = self.tokenizer.decode(item)  # 解码为中文
@@ -85,11 +86,15 @@ class Generator:
                 continue  # 不满足直接跳过
             if not self.checker.rhyme_eq(chr_rule, c, rhyme, book):  # 校验韵律
                 continue  # 不满足直接跳过
-            return torch.as_tensor(item)  # 满足条件直接返回
+            tokens.append(item)  # 加入到结果集合中
+        if len(tokens) > 0:
+            return torch.as_tensor(tokens)  # 返回列表
         # 没有找到满足的，执行兜底函数
-        chs = self.get_chars_by_rule(chr_rule, rhyme, book)
-        ch = chs[random.randint(0, len(chs) - 1)]  # 随机选择
-        return torch.as_tensor(self.tokenizer.convert_tokens_to_ids(self.tokenizer.tokenize(ch))[0])  # 返回编码
+        chs: list = self.get_chars_by_rule(chr_rule, rhyme, book)
+        random.shuffle(chs)  # 随机打乱
+        while self.tokenizer.tokenize(chs[0])[0] == "[UNK]":
+            random.shuffle(chs)  # 首位是未知字符需要再次打乱
+        return torch.as_tensor(self.tokenizer.convert_tokens_to_ids(chs))  # 返回编码列表
 
     def get_chars_by_rule(self, chr_rule: int, rhyme: str, book: list):
         '''
@@ -134,13 +139,40 @@ class Generator:
             return True  # 是否在中文范围内
         return False
 
+    def get_next_word(self, poem: str, book: list, rule: list, rhyme: str):
+        '''
+        预测输入诗词的下一个字
+        :param poem: 用户输入的诗词
+        :param book: 韵书
+        :param rule: 格律
+        :param rhyme: 需要压的韵
+        :return:
+        '''
+        # 将诗词分割为列表
+        sentences = self.checker.split_poem(poem + "X")  # X代表需要被填充的字
+        # 遍历诗词，获取预测字的位置及格律要求
+        chr_rule: int = 0
+        for i in range(len(sentences)):
+            for j in range(len(sentences[i])):
+                chr_rule = int(rule[i][j])  # 一定要转为int
+        # 调用模型，获取logits
+        encodes = self.tokenizer.encode(poem)[0:-1]  # 编码
+        context = torch.tensor([encodes])
+        output = self.model(context)
+        tokens = self.filter(output.logits[0, -1, :], chr_rule, rhyme, book)  # 获取建议字符列表编码
+        print(tokens)
+        res = self.tokenizer.decode(tokens)  # 解码为汉字
+        return res
+
 
 if __name__ == '__main__':
     c = Checker()
     g = Generator(c)
-    # print(g.tokenizer.tokenize("春"))
+    res = g.get_next_word("窗前希月光，呼呼地云", rhymebooks["中华新韵"], c.getRule("五绝平起首句入韵", rhy_config.LV_RHY_TYPE), "绑")
+    print(res)
+    # print(g.tokenizer.tokenize("垍")[0] == "[UNK]")
     # print(g.get_chars_by_rule(rhy_config.TONE_LEVEL_RHYME, "庚", rhymebooks["中华新韵"]))
 
     # print(g.is_cn_char("[SEP]"))
 
-    g.generate_poem_rhyme(["落雨","曾经"], rhymebooks["中华新韵"], c.getRule("七绝平起首句入韵", rhy_config.LV_RHY_TYPE), "庚")
+    # g.generate_poem_rhyme(["落花","百草","芙蓉"], rhymebooks["中华新韵"], c.getRule("七绝平起首句入韵", rhy_config.LV_RHY_TYPE), "庚")
