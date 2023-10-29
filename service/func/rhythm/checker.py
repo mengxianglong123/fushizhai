@@ -154,12 +154,12 @@ class Checker:
         for i in range(len(sentences)):
             for j in range(len(sentences[i])):
                 if not self.rhyme_eq(int(rule[i][j]), sentences[i][j], rhyme, book):
-                    self.mark_meter_arr(res, i, j)  # 不满足押韵条件
+                    self.mark_meter_err(res, i, j)  # 不满足押韵条件
         return res
 
-    def mark_meter_arr(self, res, row, column):
+    def mark_meter_err(self, res, row, column):
         '''
-        将校验结果对应位置标记为不满足押韵要求
+        将校验结果对应位置标记为不满足押韵要求(不满足押韵则一定不满足平仄，所以只需要将之前的结果进行更新即可)
         :param res: 检验结果
         :param row: 行号
         :param column: 列号
