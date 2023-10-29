@@ -60,19 +60,20 @@ class Checker:
         if rule == "" : return res # 无需校验
 
         # 3. 校验平仄
-        res = self.checkPingZe(sentences, rule, res, book)
+        res = self.checkPingZe(sentences, rule, res, book, rhy_type)
 
         # 4. 韵律校验
         res = self.checkRhyme(sentences, rule, rhyme, book, res)
         return res
 
-    def checkPingZe(self, sentences: list, rule: list, res: list, book: list):
+    def checkPingZe(self, sentences: list, rule: list, res: list, book: list, rhy_type: int):
         '''
         校验平仄
         :param sentences: 分割后用户的句子
         :param rule: 格律(分割后的列表)
         :param res: 校验结果
         :param book: 韵书
+        :param rhy_type: 校验形式
         :return:
         '''
         # 遍历句子
@@ -80,9 +81,47 @@ class Checker:
             for j in range(len(sentences[i])):
                 tone = self.getTonePattern(sentences[i][j], book)  # 获取单个字的韵律
                 standard = int(rule[i][j])  # 获取格律中的标准平仄
+                if rhy_type == rhy_config.LV_RHY_TYPE and self.is_skip_check(sentences[i], j, book, rule[i]):
+                    continue  # 如果是律诗/绝句类型，且满足放宽条件，可以跳过
                 if not self.pingze_eq(standard, tone):
                     res.append(CheckResult(i, j, True, False, []))  # 不满足平仄要求
         return res
+
+    def is_skip_check(self, sentence: str, pos: int, book: list, rule_line: str):
+        '''
+        特殊平仄校验，对律诗/绝句规则进行放宽处理
+        备注：在保证没有“三平尾”、“孤平”的情况下，有些非关键的地方可以适当放宽，叫“一三五不论，二四六分明”。
+        本函数暂时只校验是否有三平尾 todo 后期添加对孤平的判断
+        :param sentence: 单句
+        :param pos: 当前字所在位置
+        :param book: 韵书
+        :param rule_line: 本句的格律要求
+        :return: True 满足满足放宽条件，直接跳过  False：不满足放宽条件，需要进行严格校验
+        '''
+        if pos % 2 == 1 or (pos == len(sentence) - 1 and self.need_rhyme(int(rule_line[len(sentence) - 1]))):
+            return False  # 第偶数个字，或者最后一个字需要押韵，不允许跳过
+        t1 = self.getTonePattern(sentence[-1], book)   # 倒数第一个字
+        t2 = self.getTonePattern(sentence[-2], book)  # 倒数第二个字
+        t3 = self.getTonePattern(sentence[-3], book)  # 倒数第三个字
+        if self.is_ping(t1) and self.is_ping(t2) and self.is_ping(t3):
+            return False  # 出现三平尾，不允许跳过
+        return True  # 其他情况可跳过
+
+    def need_rhyme(self, tone: int):
+        '''
+        判断是否需要押韵
+        :param tone:
+        :return:
+        '''
+        return tone == rhy_config.TONE_LEVEL_RHYME or tone == rhy_config.TONE_OBLIQUE_RHYME
+
+    def is_ping(self, tone: int):
+        '''
+        判断是否是平音
+        :param tone: 单字的韵
+        :return:
+        '''
+        return tone == rhy_config.TONE_LEVEL or tone == rhy_config.TONE_LEVEL_RHYME
 
     def pingze_eq(self, standard: int, tone: int):
         '''
@@ -230,7 +269,7 @@ class Checker:
         return final_rhy
 
 if __name__ == '__main__':
-    checker = Checker()
+    # checker = Checker()
     # print(checker.split_poem("   横看成岭侧成非，远近高低各不同。不识庐山真面飞，只缘身在此山唯。   "))
     # checker.getPoemRhyme('横看成岭侧成非，远近高低各不同。不识庐山真面飞，只缘身在此山唯。', "七绝平起首句入韵",
     #                      rhy_config.LV_RHY_TYPE,
@@ -239,12 +278,13 @@ if __name__ == '__main__':
     #print(checker.getTonePattern("去", rhy_config.rhymebooks["中华新韵"]))
     # checker.getRhymeGroup("云", rhy_config.rhymebooks["中华新韵"])
     s = '横看成岭侧成峰，远近高低各不韵。不识庐山真面目，只缘身在此山中。'
-    res = checker.check(s,
-                  "七绝平起首句入韵",
-                  rhy_config.LV_RHY_TYPE,
-                  rhy_config.rhymebooks["广韵"],
-                  "钟")
-    sentences = checker.split_poem(s)
-    for item in res:
-        item: CheckResult
-        print(sentences[item.row][item.column] + " " + str(item.is_meter_err) + str(item.is_pingze_err))
+    print(s[-2])
+    # res = checker.check(s,
+    #               "七绝平起首句入韵",
+    #               rhy_config.LV_RHY_TYPE,
+    #               rhy_config.rhymebooks["广韵"],
+    #               "钟")
+    # sentences = checker.split_poem(s)
+    # for item in res:
+    #     item: CheckResult
+    #     print(sentences[item.row][item.column] + " " + str(item.is_meter_err) + str(item.is_pingze_err))

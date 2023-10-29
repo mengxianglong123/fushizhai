@@ -69,14 +69,14 @@ class Scheduler:
 
 
 if __name__ == '__main__':
-    poem = "驿外断桥边，寂寞开无主。已是黄昏独自愁，更著风和雨。无意苦争错，一任群芳妒。零落成泥烂作尘，只有香如故。"
+    poem = "折戟沉沙铁未销，自将磨洗认前朝。东风不与周郎便，铜雀春深锁二韵。"
     c = Checker()
     g = Generator(c)
     s = Scheduler(c, g)
-    err_list = s.check_rhyme(poem, "卜算子",
-                             rhy_config.CI_RHY_TYPE,
+    err_list = s.check_rhyme(poem, "七绝仄起首句入韵",
+                             rhy_config.LV_RHY_TYPE,
                              rhy_config.rhymebooks["平水韵"],
-                             "遇")
+                             "萧")
     sentences = c.split_poem(poem)
     for err in err_list:
         err: CheckResult
