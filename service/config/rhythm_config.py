@@ -2,23 +2,21 @@
 韵律相关配置
 '''
 import json
-import os
 
-# 律书
-import sys
-
+# 韵书
 rhymebooks = None
 # 律诗格律
 meters = None
 # 读取词牌韵律
 ci_meters = None
 
-# 常量配置
+# 单个字符韵律
 TONE_EITHER = 0
 TONE_LEVEL = 1
 TONE_OBLIQUE = 2
 TONE_LEVEL_RHYME = 3
 TONE_OBLIQUE_RHYME = 4
+# 检验类型
 LV_RHY_TYPE = 0
 CI_RHY_TYPE = 1
 NO_RHY_TYPE = -1

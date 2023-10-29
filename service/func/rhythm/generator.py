@@ -160,19 +160,19 @@ class Generator:
         context = torch.tensor([encodes])
         output = self.model(context)
         tokens = self.filter(output.logits[0, -1, :], chr_rule, rhyme, book)  # 获取建议字符列表编码
-        print(tokens)
         res = self.tokenizer.decode(tokens)  # 解码为汉字
-        return res
+        return res.split(" ")
 
 
 if __name__ == '__main__':
     c = Checker()
     g = Generator(c)
-    res = g.get_next_word("窗前希月光，呼呼地云", rhymebooks["中华新韵"], c.getRule("五绝平起首句入韵", rhy_config.LV_RHY_TYPE), "绑")
-    print(res)
+    # res = g.get_next_word("横看成岭侧成峰，远近高低各不", rhymebooks["中华新韵"], c.getRule("七绝平起首句入韵", rhy_config.LV_RHY_TYPE), "庚")
+    # print(res)
     # print(g.tokenizer.tokenize("垍")[0] == "[UNK]")
     # print(g.get_chars_by_rule(rhy_config.TONE_LEVEL_RHYME, "庚", rhymebooks["中华新韵"]))
 
     # print(g.is_cn_char("[SEP]"))
 
-    # g.generate_poem_rhyme(["落花","百草","芙蓉"], rhymebooks["中华新韵"], c.getRule("七绝平起首句入韵", rhy_config.LV_RHY_TYPE), "庚")
+    res = g.generate_poem_rhyme(["疏影","芙蓉"], rhymebooks["中华新韵"], c.getRule("七绝平起首句入韵", rhy_config.LV_RHY_TYPE), "庚")
+    print(res)

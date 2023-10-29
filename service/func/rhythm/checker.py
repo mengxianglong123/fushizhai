@@ -114,7 +114,20 @@ class Checker:
         for i in range(len(sentences)):
             for j in range(len(sentences[i])):
                 if not self.rhyme_eq(int(rule[i][j]), sentences[i][j], rhyme, book):
-                    res.append(CheckResult(i, j, False, True, []))  # 不满足押韵条件
+                    self.mark_meter_arr(res, i, j)  # 不满足押韵条件
+        return res
+
+    def mark_meter_arr(self, res, row, column):
+        '''
+        将校验结果对应位置标记为不满足押韵要求
+        :param res: 检验结果
+        :param row: 行号
+        :param column: 列号
+        :return:
+        '''
+        for item in res:
+            if item.column == column and item.row == row:
+                item.is_meter_err = True
         return res
 
     def rhyme_eq(self, rule_chr: int, c: str, rhyme: str, book: list):
@@ -228,9 +241,9 @@ if __name__ == '__main__':
     res = checker.check(s,
                   "七绝平起首句入韵",
                   rhy_config.LV_RHY_TYPE,
-                  rhy_config.rhymebooks["中华新韵"],
-                  "庚")
+                  rhy_config.rhymebooks["广韵"],
+                  "钟")
     sentences = checker.split_poem(s)
     for item in res:
         item: CheckResult
-        print(sentences[item.row][item.column])
+        print(sentences[item.row][item.column] + " " + str(item.is_meter_err) + str(item.is_pingze_err))
