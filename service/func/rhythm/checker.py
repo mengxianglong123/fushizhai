@@ -1,6 +1,7 @@
 import re
 import config.rhythm_config as rhy_config
 from pojo.check_result import CheckResult
+import config.common_config as common
 
 class Checker:
     '''
@@ -17,7 +18,7 @@ class Checker:
         :return: 单句列表
         '''
         poem = poem.strip()  # 去除多余空格
-        sentences: list = re.split(r"[,，。？?！!]", poem)
+        sentences: list = re.split(r"["+common.split_chr+"]", poem)
         if sentences[-1] == "":
             sentences = sentences[:-1]  # 移除最后一个元素
         return sentences
