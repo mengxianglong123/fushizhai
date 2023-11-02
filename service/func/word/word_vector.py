@@ -3,7 +3,7 @@ import fasttext
 
 class WordVector:
     def __init__(self):
-        self.model = fasttext.load_model("../../static/poem_word_vec_cbow.model.bin")
+        self.model = fasttext.load_model("../../static/models/poem_word_vec_cbow.model.bin")
 
     def get_relative_words(self, word, k=20):
         """
