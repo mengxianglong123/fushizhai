@@ -16,7 +16,7 @@ class Generator:
         '''
         初始化
         '''
-        self.tokenizer = BertTokenizer.from_pretrained("uer/gpt2-chinese-poem")  # 分词器
+        self.tokenizer = BertTokenizer.from_pretrained("uer/gpt2-chinese-poem")  # 分词器 todo 后期改成本地加载
         self.model = GPT2LMHeadModel.from_pretrained("uer/gpt2-chinese-poem")  # 模型 todo 后期可以尝试换魔搭的gpt3
         self.checker = checker  # 校验器
 
