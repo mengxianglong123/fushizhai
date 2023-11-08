@@ -48,7 +48,6 @@ def load_data():
         # 添加到对应列表中
         source_codes.append(source_code)
         target_codes.append(target_code)
-        break  # todo 测试
     source_codes = torch.tensor(source_codes)
     target_codes = torch.tensor(target_codes)
     # 保存缓存
@@ -105,6 +104,7 @@ def split_data(dataset):
     train_dataset, validation_dataset = Data.random_split(dataset=dataset, lengths=[train_length, validation_length])
     return train_dataset, validation_dataset
 
+
 def collate_fn(batch):
     """
     将dataset的数据进一步处理，并组成一个batch。
@@ -118,6 +118,25 @@ def collate_fn(batch):
              tgt_y为label：翻译后的句子，但不包含第一个token，即<bos>
              n_tokens：tgt_y中的token数，<pad>不计算在内。
     """
+    sources = []
+    targets = []
+    for source, target in batch:
+        sources.append(source)
+        targets.append(target)
+    # 堆叠,将其转换为tensor
+    src = torch.stack(sources)
+    tgt = torch.stack(targets)
+
+    # tgt_y是目标句子去掉第一个token，即去掉<cls>
+    tgt_y = tgt[:, 1:]
+    # tgt是目标句子去掉最后一个token
+    tgt = tgt[:, :-1]
+
+    # 计算本次batch要预测的token数
+    n_tokens = (tgt_y != 102).sum()  # 102代表pad填充(根据tokenizer确实能)
+
+    # 返回batch后的结果
+    return src, tgt, tgt_y, n_tokens
 
 
 def get_data_loader():
@@ -131,11 +150,13 @@ def get_data_loader():
     train_loader = DataLoader(train_dataset,
                               batch_size=config.batch_size,
                               shuffle=True,
+                              collate_fn=collate_fn,
                               num_workers=config.num_workers)
     # 3. 验证集数据加载器
     val_loader = DataLoader(validation_dataset,
                             batch_size=config.batch_size,
                             shuffle=False,
+                            collate_fn=collate_fn,
                             num_workers=config.num_workers)
 
     return train_loader, val_loader
@@ -143,7 +164,8 @@ def get_data_loader():
 
 if __name__ == '__main__':
     train_loader, val_loader = get_data_loader()
-    for source, target in train_loader:
-        print(source)
-        print(target)
-        break
+    for src, tgt, tgt_y, n_tokens in train_loader:
+        print(src.size())
+        print(tgt.size())
+        print(tgt_y.size())
+        print(n_tokens)
