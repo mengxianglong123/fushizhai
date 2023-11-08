@@ -133,7 +133,7 @@ def collate_fn(batch):
     tgt = tgt[:, :-1]
 
     # 计算本次batch要预测的token数
-    n_tokens = (tgt_y != 102).sum()  # 102代表pad填充(根据tokenizer确实能)
+    n_tokens = (tgt_y != 0).sum()  # 0代表pad填充(根据tokenizer确定)
 
     # 返回batch后的结果
     return src, tgt, tgt_y, n_tokens
@@ -166,6 +166,6 @@ if __name__ == '__main__':
     train_loader, val_loader = get_data_loader()
     for src, tgt, tgt_y, n_tokens in train_loader:
         print(src.size())
-        print(tgt.size())
+        print(tgt)
         print(tgt_y.size())
         print(n_tokens)
