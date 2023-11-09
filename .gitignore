@@ -240,3 +240,5 @@ fabric.properties
 service/static/models/**
 service/static/data/**
 *.pt
+# 运行过程数据
+runs/
