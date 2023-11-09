@@ -116,7 +116,6 @@ class TranslationModel(nn.Module):
         """
         用于key_padding_mask
         """
-        print(tokens)
         return tokens == 0  # <pad>编码取决于tokenizer
 
 def get_model():

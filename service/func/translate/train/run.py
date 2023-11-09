@@ -2,11 +2,13 @@ import torch
 from torch import nn
 from model import get_model
 from config.common_config import device
+import config.translate_config as config
 from torch.nn.functional import pad, log_softmax
 from tqdm import tqdm
 from data_loader import get_data_loader
 from torch.utils.tensorboard import SummaryWriter
 
+torch.cuda.empty_cache()  # 清理缓存
 # 获取模型
 model = get_model()
 # 定义优化器
@@ -15,6 +17,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=3e-4)
 writer = SummaryWriter(log_dir='runs/transformer_loss')
 # 数据加载器
 train_loader, val_loader = get_data_loader()
+
 
 class TranslationLoss(nn.Module):
     """
@@ -63,15 +66,104 @@ class TranslationLoss(nn.Module):
 
 
 criteria = TranslationLoss()  # 损失计算
-torch.cuda.empty_cache()  # 清理缓存
+
 
 def train():
     """
     训练函数
     :return:
     """
-    for src, tgt, tgt_y, n_tokens in tqdm(train_loader):
-        continue
+    # 训练步数
+    step = 0
+    # 每多少步保存一次模型
+    save_after_step = 3000  # todo 根据实际情况进行调整
+    # 调整为训练状态
+    model.train()
+
+    for epoch in range(config.epochs):
+        loop = tqdm(enumerate(train_loader), total=len(train_loader))
+        for src, tgt, tgt_y, n_tokens in train_loader:
+            # 获取数据
+            src, tgt, tgt_y = src.to(device), tgt.to(device), tgt_y.to(device)
+
+            # 清空梯度
+            optimizer.zero_grad()
+            # 进行transformer计算
+            out = model(src, tgt)
+            # 将结果送给最后的线性层进行预测
+            out = model.predictor(out)
+            """
+            计算损失。由于训练时我们的是对所有的输出都进行预测，所以需要对out进行reshape一下。
+                    我们的out的Shape为(batch_size, 词数, 词典大小)，view之后变为：
+                    (batch_size*词数, 词典大小)。
+                    而在这些预测结果中，我们只需要对非<pad>部分进行，所以需要进行正则化。也就是
+                    除以n_tokens。
+            """
+            loss = criteria(out.contiguous().view(-1, out.size(-1)), tgt_y.contiguous().view(-1)) / n_tokens
+            # 计算梯度
+            loss.backward()
+            # 更新参数
+            optimizer.step()
+
+            # 记录日志
+            writer.add_scalar(tag="train_loss",
+                              scalar_value=loss.item(),
+                              global_step=step)
+
+            # 更新tqdm的值
+            loop.set_description("Epoch {}/{}".format(epoch, config.epochs))
+            loop.set_postfix(loss=loss.item())
+            loop.update(1)
+
+            step += 1
+
+            del src
+            del tgt
+            del tgt_y
+
+            if step != 0 and step % save_after_step == 0:
+                torch.save(model, "./runs/models/" + "model_{}.pt".format(step))
+
+        # 每训练完一个轮次，进行一次验证
+        val(epoch)
+
+    # 保存最终的模型
+    torch.save(model, "./runs/models/" + f"model_final.pt")
+
+
+def val(epoch):
+    """
+    模型验证函数
+    :param epoch:
+    :return:
+    """
+    print("======第{}轮次开始进行验证======".format(epoch))
+    # 调整为验证状态
+    model.eval()
+    # 记录本次epoch的损失
+    epoch_loss = 0.0
+    with torch.no_grad():
+        for src, tgt, tgt_y, n_tokens in tqdm(val_loader):
+            # 获取数据
+            src, tgt, tgt_y = src.to(device), tgt.to(device), tgt_y.to(device)
+            # 进行transformer计算
+            out = model(src, tgt)
+            # 将结果送给最后的线性层进行预测
+            out = model.predictor(out)
+            # 损失计算
+            loss = criteria(out.contiguous().view(-1, out.szie(-1)), tgt_y.contigous().view(-1))
+            epoch_loss += loss.item()
+            del src
+            del tgt
+            del tgt_y
+
+    # 记录日志
+    writer.add_scalar(tag="val_loss",
+                      scalar_value=epoch_loss / len(val_loader.dataset),
+                      global_step=epoch)
+
+
+
 
 if __name__ == '__main__':
     train()
