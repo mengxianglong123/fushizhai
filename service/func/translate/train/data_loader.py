@@ -30,7 +30,7 @@ def load_data():
     source_codes = []
     target_codes = []
     for i in range(0, len(source_lines)):
-        # 编码原句
+        # 编码原句，由于所有数据都是单句，所以将[SEP]当做[EOS]用了(就是因为懒)
         source_code = tokenizer.encode(text=source_lines[i],
                                        # 设置最大长度
                                        max_length=config.max_length,

@@ -6,5 +6,7 @@ top_k = 100
 split_chr = ",，。？?！!"
 # 中文通用tokenizer
 tokenizer = BertTokenizer.from_pretrained("uer/gpt2-chinese-poem")  # todo 后期改成本地加载
+# 词典
+vocab = tokenizer.get_vocab()
 # 设备配置
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
