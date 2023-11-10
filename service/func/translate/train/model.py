@@ -3,7 +3,7 @@ from torch import nn
 from config.common_config import device
 import config.translate_config as config
 import math
-from data_loader import get_data_loader
+from func.translate.train.data_loader import get_data_loader
 from config.common_config import vocab
 
 
@@ -129,6 +129,7 @@ if __name__ == '__main__':
     train_loader, val_loader = get_data_loader()
     src, tgt, tgt_y, n_tokens = next(iter(train_loader))
     src, tgt, tgt_y = src.to(device), tgt.to(device), tgt_y.to(device)
-    model = get_model()
-    model = model.to(device)
-    print(model(src, tgt).size())
+    print(src.size())
+    # model = get_model()
+    # model = model.to(device)
+    # print(model(src, tgt).size())
