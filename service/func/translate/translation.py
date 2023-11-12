@@ -2,8 +2,6 @@ import torch
 from config.common_config import device
 from config.common_config import tokenizer
 import config.translate_config as config
-from train.model import get_model
-from func.translate.train.data_loader import get_data_loader
 
 
 class Translation:
@@ -61,4 +59,10 @@ class Translation:
         return tgt
 
 if __name__ == '__main__':
-    Translation.translate(get_model().to(device), "先帝创业未办而中道崩殂")
+    """
+    解决模型load报错module not found，因为模型结构包含了路径信息，尽量直接保存状态
+    """
+    import sys
+    sys.path.append("D:\\Code\\Python\\fushizhai\\service\\func\\translate\\train")
+    m = torch.load("train/runs/models/model_144000.pt").to(device)
+    Translation.translate(m, "彼尝以衣冠礼乐之国自居，理当如是乎？")

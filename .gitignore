@@ -242,3 +242,5 @@ service/static/data/**
 *.pt
 # 运行过程数据
 runs/
+# 缓存数据
+cache/

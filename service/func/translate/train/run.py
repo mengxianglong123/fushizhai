@@ -1,11 +1,11 @@
 import torch
 from torch import nn
-from model import get_model
+from func.translate.train.model import get_model
 from config.common_config import device
 import config.translate_config as config
 from torch.nn.functional import pad, log_softmax
 from tqdm import tqdm
-from data_loader import get_data_loader
+from func.translate.train.data_loader import get_data_loader
 from torch.utils.tensorboard import SummaryWriter
 
 torch.cuda.empty_cache()  # 清理缓存
@@ -75,14 +75,28 @@ def train():
     """
     # 训练步数
     step = 0
+    # 检查点的步数
+    checkpoint_step = 0
+    # 模型训练检查点
+    if config.model_checkpoint is not None:
+        checkpoint_step = int(config.model_checkpoint.replace("model_", "").replace(".pt", ""))
     # 每多少步保存一次模型
-    save_after_step = 3000  # todo 根据实际情况进行调整
+    save_after_step = 10000  # todo 根据实际情况进行调整
     # 调整为训练状态
     model.train()
+    torch.save(model, "./runs/models/" + "model_{}.pt".format(step))
 
     for epoch in range(config.epochs):
         loop = tqdm(enumerate(train_loader), total=len(train_loader))
         for src, tgt, tgt_y, n_tokens in train_loader:
+            # 如果当前步数小于检查点，则不需要进行计算，直接跳过
+            if step <= checkpoint_step:
+                step += 1
+                loop.update(1)
+                del src
+                del tgt
+                del tgt_y
+                continue
             # 获取数据
             src, tgt, tgt_y = src.to(device), tgt.to(device), tgt_y.to(device)
 
@@ -125,7 +139,7 @@ def train():
                 torch.save(model, "./runs/models/" + "model_{}.pt".format(step))
 
         # 每训练完一个轮次，进行一次验证
-        val(epoch)
+        # val(epoch)
 
     # 保存最终的模型
     torch.save(model, "./runs/models/" + f"model_final.pt")
@@ -151,7 +165,7 @@ def val(epoch):
             # 将结果送给最后的线性层进行预测
             out = model.predictor(out)
             # 损失计算
-            loss = criteria(out.contiguous().view(-1, out.szie(-1)), tgt_y.contigous().view(-1))
+            loss = criteria(out.contiguous().view(-1, out.size(-1)), tgt_y.contiguous().view(-1))
             epoch_loss += loss.item()
             del src
             del tgt

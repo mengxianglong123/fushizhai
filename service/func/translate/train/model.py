@@ -123,6 +123,10 @@ def get_model():
     获取模型
     :return:
     """
+    # 检查是否使用检查点
+    if config.model_checkpoint is not None:
+        print("加载缓存模型")
+        return torch.load("./runs/models/" + config.model_checkpoint).to(device)
     return TranslationModel(config.d_model, vocab, vocab).to(device)
 
 if __name__ == '__main__':

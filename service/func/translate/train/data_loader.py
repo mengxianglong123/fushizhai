@@ -21,10 +21,10 @@ def load_data():
         return torch.load(cache_file_source, map_location="cpu"), torch.load(cache_file_target, map_location="cpu")
 
     # 原文数据
-    with open("../../../static/data/translate_source.txt", mode="r", encoding="utf-8") as source:
+    with open("static/data/translate_source.txt", mode="r", encoding="utf-8") as source:
         source_lines = source.readlines()
     # 翻译数据
-    with open("../../../static/data/translate_target.txt", mode="r", encoding="utf-8") as target:
+    with open("static/data/translate_target.txt", mode="r", encoding="utf-8") as target:
         target_lines = target.readlines()
     # 对数据进行编码
     source_codes = []

@@ -5,7 +5,7 @@ top_k = 100
 # 分隔符
 split_chr = ",，。？?！!"
 # 中文通用tokenizer
-tokenizer = BertTokenizer.from_pretrained("uer/gpt2-chinese-poem")  # todo 后期改成本地加载
+tokenizer = BertTokenizer.from_pretrained("./static/models/gpt2-chinese-poem")
 # 词典
 vocab = tokenizer.get_vocab()
 # 设备配置
