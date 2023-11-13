@@ -12,7 +12,7 @@ torch.cuda.empty_cache()  # 清理缓存
 # 获取模型
 model = get_model()
 # 定义优化器
-optimizer = torch.optim.Adam(model.parameters(), lr=3e-4)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
 # 训练记录
 writer = SummaryWriter(log_dir='runs/transformer_loss')
 # 数据加载器
@@ -81,7 +81,7 @@ def train():
     if config.model_checkpoint is not None:
         checkpoint_step = int(config.model_checkpoint.replace("model_", "").replace(".pt", ""))
     # 每多少步保存一次模型
-    save_after_step = 10000  # todo 根据实际情况进行调整
+    save_after_step = 20000  # todo 根据实际情况进行调整
     # 调整为训练状态
     model.train()
     torch.save(model, "./runs/models/" + "model_{}.pt".format(step))

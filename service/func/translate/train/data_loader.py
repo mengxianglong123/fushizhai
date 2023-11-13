@@ -97,10 +97,10 @@ def split_data(dataset):
     """
     # 数据总数
     total_length = len(dataset)
-    # 80%作为训练集，剩下20%作为测试集
-    train_length = int(total_length * 0.8)
+    # 95%作为训练集，剩下5%作为测试集
+    train_length = int(total_length * 0.95)
     validation_length = total_length - train_length
-    # 利用torch.utils.data.random_split()直接切分数据集, 按照80%, 20%的比例进行切分
+    # 利用torch.utils.data.random_split()直接切分数据集, 按照95%, 5%的比例进行切分
     train_dataset, validation_dataset = Data.random_split(dataset=dataset, lengths=[train_length, validation_length])
     return train_dataset, validation_dataset
 

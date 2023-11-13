@@ -63,7 +63,7 @@ class TranslationModel(nn.Module):
         # 定义位置编码器
         self.positional_encoding = PositionalEncoding(d_model, dropout, max_len=config.max_length)
         # 定义transformer
-        self.transformer = nn.Transformer(d_model, dropout=dropout, batch_first=True)
+        self.transformer = nn.Transformer(d_model, dropout=dropout, batch_first=True, num_decoder_layers=4, num_encoder_layers=5)
         # 定义最后的预测层，这里并没有定义Softmax，而是把他放在了模型外。
         self.predictor = nn.Linear(d_model, len(tgt_vocab))
 
@@ -88,7 +88,7 @@ class TranslationModel(nn.Module):
         tgt_mask = nn.Transformer.generate_square_subsequent_mask(tgt.size()[-1]).to(device)
         # 掩盖住原句中的<pad>部分，例如[[False,False,False,..., True,True,...], ...]
         src_key_padding_mask = TranslationModel.get_key_padding_mask(src)
-        # 掩盖住目标句子中的<pad>部分 todo 验证一下返回的mask长什么什么样子
+        # 掩盖住目标句子中的<pad>部分
         tgt_key_padding_mask = TranslationModel.get_key_padding_mask(tgt)
 
         # 对src和tgt进行编码

@@ -64,5 +64,5 @@ if __name__ == '__main__':
     """
     import sys
     sys.path.append("D:\\Code\\Python\\fushizhai\\service\\func\\translate\\train")
-    m = torch.load("train/runs/models/model_144000.pt").to(device)
+    m = torch.load("../../model_final.pt").to(device)
     Translation.translate(m, "彼尝以衣冠礼乐之国自居，理当如是乎？")
