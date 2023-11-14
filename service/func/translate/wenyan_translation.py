@@ -35,4 +35,5 @@ def inference(text):
                 bos_token_id=101,
                 eos_token_id=tokenizer.sep_token_id,
                 pad_token_id=tokenizer.pad_token_id,
+                max_length=128
             ), skip_special_tokens=True)[0].replace(" ","")

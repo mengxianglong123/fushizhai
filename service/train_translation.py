@@ -5,10 +5,7 @@ from config.common_config import device
 from func.translate.train.data_loader import get_data_loader
 
 
-t_loader, v_loader = get_data_loader()
-for src, tgt, tgt_y, n_tokens in t_loader:
-    print(tgt[0])
-    print(tgt[0].size())
-    print(tgt_y[0])
-    print(tgt_y[0].size())
-    break
+import sys
+sys.path.append("D:\\Code\\Python\\fushizhai\\service\\func\\translate\\train")
+m = torch.load("model_final.pt").to(device)
+Translation.translate(m, "谈笑有鸿儒，往来无白丁。可以调素琴，阅金经。无丝竹之乱耳，无案牍之劳形。")
