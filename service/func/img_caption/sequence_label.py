@@ -3,8 +3,10 @@ from modelscope.pipelines import pipeline
 from modelscope.utils.constant import Tasks
 # Version less than 1.1 please use TokenClassificationPreprocessor
 from modelscope.preprocessors import TokenClassificationTransformersPreprocessor
+from utils.singletone import singleton
 
 
+@singleton
 class SequenceLabel:
     def __init__(self):
         model_id = 'damo/nlp_structbert_part-of-speech_chinese-base'

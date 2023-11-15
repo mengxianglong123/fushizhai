@@ -1,8 +1,10 @@
-import func.translate.wenyan_translation as trans
-from utils.rhyme_utils import get_rhymebooks_name
-from config.rhythm_config import LV_RHY_TYPE
+from flask import Flask, Blueprint, request
+from api import creation
+# 用当前脚本名称实例化Flask对象，方便flask从该脚本文件中获取需要的内容
+app = Flask(__name__)
 
+# 添加蓝图
+app.register_blueprint(creation.creation)  # 创作模块
 
+app.run(host="0.0.0.0")
 
-print(get_rhymebooks_name())
-# print(trans.inference("山不在高，有仙则名。水不在深，有龙则灵。斯是陋室，惟吾德馨。苔痕上阶绿，草色入帘青。"))

@@ -1,8 +1,10 @@
 from modelscope.pipelines import pipeline
 from modelscope.utils.constant import Tasks
 from func.img_caption.sequence_label import SequenceLabel
+from utils.singletone import singleton
 
 
+@singleton
 class ImageCaption:
     """
     图像描述

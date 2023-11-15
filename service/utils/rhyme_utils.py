@@ -22,3 +22,15 @@ def get_rhymebooks_name():
     :return:
     """
     return list(config.rhymebooks.keys())
+
+
+def obj_list_to_dict(obj_list):
+    """
+    将对象列表转为字典列表
+    :param obj_list:
+    :return:
+    """
+    dict_list = []
+    for obj in obj_list:
+        dict_list.append(vars(obj))
+    return dict_list
