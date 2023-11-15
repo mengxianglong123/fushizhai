@@ -1,10 +1,12 @@
 from pojo.check_result import CheckResult
 import config.common_config as common
-from checker import Checker
-from generator import Generator
+from func.rhythm.checker import Checker
+from func.rhythm.generator import Generator
 import config.rhythm_config as rhy_config
+from utils.singletone import singleton
 
 
+@singleton
 class Scheduler:
     '''
     调度器

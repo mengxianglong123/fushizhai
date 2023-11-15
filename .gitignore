@@ -239,6 +239,7 @@ fabric.properties
 # 项目模型和数据较大的数据
 service/static/models/**
 service/static/data/**
+service/static/imgs/**
 *.pt
 # 运行过程数据
 runs/

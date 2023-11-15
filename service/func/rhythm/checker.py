@@ -2,7 +2,10 @@ import re
 import config.rhythm_config as rhy_config
 from pojo.check_result import CheckResult
 import config.common_config as common
+from utils.singletone import singleton
 
+
+@singleton
 class Checker:
     '''
     校验器
@@ -18,7 +21,7 @@ class Checker:
         :return: 单句列表
         '''
         poem = poem.strip()  # 去除多余空格
-        sentences: list = re.split(r"["+common.split_chr+"]", poem)
+        sentences: list = re.split(r"[" + common.split_chr + "]", poem)
         if sentences[-1] == "":
             sentences = sentences[:-1]  # 移除最后一个元素
         return sentences
@@ -57,7 +60,7 @@ class Checker:
         sentences: list = self.split_poem(poem)
         # 2. 获取格律
         rule: list = self.getRule(rule_name, rhy_type)
-        if rule == "" : return res # 无需校验
+        if rule == "": return res  # 无需校验
 
         # 3. 校验平仄
         res = self.checkPingZe(sentences, rule, res, book, rhy_type)
@@ -100,7 +103,7 @@ class Checker:
         '''
         if pos % 2 == 1 or (pos == len(sentence) - 1 and self.need_rhyme(int(rule_line[len(sentence) - 1]))):
             return False  # 第偶数个字，或者最后一个字需要押韵，不允许跳过
-        t1 = self.getTonePattern(sentence[-1], book)   # 倒数第一个字
+        t1 = self.getTonePattern(sentence[-1], book)  # 倒数第一个字
         t2 = self.getTonePattern(sentence[-2], book)  # 倒数第二个字
         t3 = self.getTonePattern(sentence[-3], book)  # 倒数第三个字
         if self.is_ping(t1) and self.is_ping(t2) and self.is_ping(t3):
@@ -243,7 +246,7 @@ class Checker:
         # 分割诗词
         sentences = self.split_poem(poem)
         # 获取格律
-        rule = self.getRule(rule_name,rhy_type)
+        rule = self.getRule(rule_name, rhy_type)
         # 获取所有需要押韵位置的字
         need_rhyme_list: list = []
         for i in range(len(sentences)):
@@ -268,6 +271,7 @@ class Checker:
                 final_rhy = key
         return final_rhy
 
+
 if __name__ == '__main__':
     # checker = Checker()
     # print(checker.split_poem("   横看成岭侧成非，远近高低各不同。不识庐山真面飞，只缘身在此山唯。   "))
@@ -275,7 +279,7 @@ if __name__ == '__main__':
     #                      rhy_config.LV_RHY_TYPE,
     #                      rhy_config.rhymebooks["中华新韵"])
 
-    #print(checker.getTonePattern("去", rhy_config.rhymebooks["中华新韵"]))
+    # print(checker.getTonePattern("去", rhy_config.rhymebooks["中华新韵"]))
     # checker.getRhymeGroup("云", rhy_config.rhymebooks["中华新韵"])
     s = '横看成岭侧成峰，远近高低各不韵。不识庐山真面目，只缘身在此山中。'
     print(s[-2])

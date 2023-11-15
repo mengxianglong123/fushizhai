@@ -2,11 +2,14 @@ import config.common_config as common
 from transformers import BertTokenizer, GPT2LMHeadModel
 import config.rhythm_config as rhy_config
 from config.rhythm_config import rhymebooks
-from checker import Checker
+from func.rhythm.checker import Checker
 import torch
 import random
+from utils.singletone import singleton
+from env import CUR_PATH
 
 
+@singleton
 class Generator:
     '''
     生成器
@@ -17,10 +20,10 @@ class Generator:
         初始化
         '''
         self.tokenizer = common.tokenizer  # 分词器
-        self.model = GPT2LMHeadModel.from_pretrained("uer/gpt2-chinese-poem")  # 模型 todo 后期可以尝试换魔搭的gpt3
+        self.model = GPT2LMHeadModel.from_pretrained(CUR_PATH + "/static/models/gpt2-chinese-poem")  # 模型 todo 后期可以尝试换魔搭的gpt3
         self.checker = checker  # 校验器
 
-    def generate_poem_rhyme(self, select_words: list, book: list, rule: list, rhyme: str):
+    def generate_poem_rhyme(self, select_words: list, book: list, rule: list, rhyme: str):  # todo 清平乐有多个韵脚(既有平又有仄)
         '''
         按照格律生成完整诗词
         :param select_words: 备选词

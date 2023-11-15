@@ -2,6 +2,7 @@
 韵律相关配置
 '''
 import json
+from env import CUR_PATH
 
 # 韵书
 rhymebooks = None
@@ -31,18 +32,18 @@ CONST2STR[LV_RHY_TYPE] = "律诗"
 CONST2STR[CI_RHY_TYPE] = "词牌"
 CONST2STR[NO_RHY_TYPE] = "无格律要求"
 
-# todo 下面的代码后期移动到整个项目启动的初始化函数中
+# todo 后期放到初始化里面
 # 读取韵律
-with open("../../static/rhythm/rhymebooks.json",'r',encoding='UTF-8') as f:
+with open(CUR_PATH + "/static/rhythm/rhymebooks.json",'r',encoding='UTF-8') as f:
     rhymebooks = json.load(f)
     f.close()
 
 # 读取律诗格律
-with open("../../static/rhythm/meters.json",'r',encoding='UTF-8') as f:
+with open(CUR_PATH + "/static/rhythm/meters.json",'r',encoding='UTF-8') as f:
     meters = json.load(f)
     f.close()
 
 # 读取词牌格律
-with open("../../static/rhythm/ci-meters.json",'r',encoding='UTF-8') as f:
+with open(CUR_PATH + "/static/rhythm/ci-meters.json",'r',encoding='UTF-8') as f:
     ci_meters = json.load(f)
     f.close()

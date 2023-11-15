@@ -1,6 +1,6 @@
 from modelscope.pipelines import pipeline
 from modelscope.utils.constant import Tasks
-from sequence_label import SequenceLabel
+from func.img_caption.sequence_label import SequenceLabel
 
 
 class ImageCaption:
@@ -11,6 +11,7 @@ class ImageCaption:
         model_id = 'damo/mplug_image-captioning_coco_base_zh'  # todo 后期这里换成本地模型加载
         self.pipeline_caption = pipeline(Tasks.image_captioning, model=model_id)
         self.seq_label = SequenceLabel()
+
 
     def get_caption(self, path):
         """

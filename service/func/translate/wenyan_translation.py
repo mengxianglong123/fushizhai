@@ -4,6 +4,7 @@ from transformers import (
 )
 import torch
 from env import CUR_PATH
+from utils.singletone import singleton
 
 
 # 基础环境
@@ -12,6 +13,7 @@ tokenizer = AutoTokenizer.from_pretrained(PRETRAINED)
 model = EncoderDecoderModel.from_pretrained(PRETRAINED)
 
 
+@singleton
 def inference(text):
     """
     文言文翻译

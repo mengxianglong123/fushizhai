@@ -1,9 +1,12 @@
 import fasttext
+from env import CUR_PATH
+from utils.singletone import singleton
 
 
+@singleton
 class WordVector:
     def __init__(self):
-        self.model = fasttext.load_model("../../static/models/poem_word_vec_cbow.model.bin")
+        self.model = fasttext.load_model(CUR_PATH + "/static/models/poem_word_vec_cbow.model.bin")
 
     def get_relative_words(self, word, k=20):
         """
