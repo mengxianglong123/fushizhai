@@ -58,3 +58,14 @@ def get_rhyme_rules(rhyme_type):
     """
     names = rhyme_utils.get_rhyme_rules(rhyme_type)
     return vars(Result(200, "查询完成", names))
+
+
+@creation.route("/getPoemCanRhyme")
+def get_poem_can_rhyme():
+    # 获取请求参数
+    rhy_type = int(request.args.get("rhyType"))  # 转int
+    rhy_name = request.args.get("rhyName")
+    book_name = request.args.get("bookName")
+    # 获取可以压的韵
+    res = rhyme_utils.get_poem_can_rhyme(rhy_type, rhy_name, book_name)
+    return vars(Result(200, "查询成功", res))

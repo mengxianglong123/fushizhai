@@ -26,7 +26,8 @@ class Checker:
             sentences = sentences[:-1]  # 移除最后一个元素
         return sentences
 
-    def getRule(self, rule_name: str, rhy_type):
+    @staticmethod
+    def getRule(rule_name: str, rhy_type):
         '''
         获取指定格律
         :param rule_name: 检验规则(规则名字)
