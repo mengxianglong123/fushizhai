@@ -1,5 +1,7 @@
 from flask import Blueprint, request
 from func.creation.creation import Creation
+import utils.rhyme_utils as rhyme_utils
+from pojo.result import Result
 
 """
 创作模块
@@ -37,3 +39,22 @@ def check_poem_rhyme():
     book_name = request.form.get("bookName")
     # 响应请求
     return vars(Creation.check_rhyme(poem, rule_name, rule_type, book_name))
+
+
+@creation.route("/getRhymeBookNames")
+def get_rhyme_book_names():
+    """
+    获取所有韵书名称
+    :return:
+    """
+    return vars(Result(200, "查询成功", rhyme_utils.get_rhymebooks_name()))
+
+
+@creation.route("/getRhymeRulesByType/<int:rhyme_type>")
+def get_rhyme_rules(rhyme_type):
+    """
+    获取某类型下的所有韵律规则名称
+    :return:
+    """
+    names = rhyme_utils.get_rhyme_rules(rhyme_type)
+    return vars(Result(200, "查询完成", names))
