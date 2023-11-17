@@ -11,6 +11,6 @@
 # print(s.generate_rhyme_poem(["春", "秋月", "残花", "枯叶"], rhymebooks["平水韵"], "踏莎行", 1, "遇"))
 
 
-from utils.rhyme_utils import get_poem_can_rhyme
-
-print(get_poem_can_rhyme(0, "七律平起首句入韵", "平水韵"))
+# from utils.rhyme_utils import get_poem_can_rhyme
+#
+# print(get_poem_can_rhyme(0, "七律平起首句入韵", "平水韵"))
