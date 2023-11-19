@@ -2,6 +2,7 @@ from modelscope.pipelines import pipeline
 from modelscope.utils.constant import Tasks
 from func.img_caption.sequence_label import SequenceLabel
 from utils.singletone import singleton
+from env import CUR_PATH
 
 
 @singleton
@@ -10,7 +11,7 @@ class ImageCaption:
     图像描述
     """
     def __init__(self):
-        model_id = 'damo/mplug_image-captioning_coco_base_zh'  # todo 后期这里换成本地模型加载
+        model_id = CUR_PATH + '/static/models/img_caption'  # todo 后期这里换成本地模型加载
         self.pipeline_caption = pipeline(Tasks.image_captioning, model=model_id)
         self.seq_label = SequenceLabel()
 
