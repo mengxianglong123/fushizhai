@@ -42,6 +42,7 @@ class Generator:
             need_add_word = random.randint(0, 1)  # 生成随机数用于判断本句是否需要加词
             # 首句需要从备选词中选词
             if index == 0 or (need_add_word == 1 and len(select_words) != 0):  # 如果该句选中，也进入该流程
+                # todo 可以改为按照顺序选取，但是在这之前shuffle,然后将权重高的词语放到前面，保证其生成质量
                 rn = random.randint(0, len(select_words) - 1)  # 随机选择一个词作为起始
                 sentence += select_words[rn]  # 拼接
                 select_words.pop(rn)  # 拼接后需要删除

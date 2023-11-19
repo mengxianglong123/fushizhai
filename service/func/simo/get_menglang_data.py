@@ -36,7 +36,6 @@ def get_words(base_words):
         res = requests.get(BASE_URL + "word/getWordByContent", params=param)
         res = json.loads(res.text)
         words = [*words, *res['data']['list']]
-    print(words)
     return words
 
 
@@ -56,5 +55,22 @@ def get_sentences(words):
     return sentences
 
 
+def get_poems(words):
+    """
+    获取孟郎诗词综合诗词搜索的数据
+    :param words:
+    :return:
+    """
+    poems = []
+    # 遍历
+    for word in words:
+        param = {"searchContent": word, "pageNum": 1, "pageSize": 15}
+        res = requests.get(BASE_URL + "poemSearch/getTotal", params=param)
+        res = json.loads(res.text)
+        poems = [*poems, *res['data']['list']]
+    return poems
+
+
+
 if __name__ == '__main__':
-    get_sentences(["春", "夏"])
+    print(len(get_poems(["春", "夏"])))

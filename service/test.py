@@ -14,3 +14,7 @@
 # from utils.rhyme_utils import get_poem_can_rhyme
 #
 # print(get_poem_can_rhyme(0, "七律平起首句入韵", "平水韵"))
+
+from func.simo.simo import SiMo
+
+print(SiMo().get_inspiration_words("雪"))
