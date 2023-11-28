@@ -1,0 +1,74 @@
+.home-banner{
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+   
+    // 轮播图
+    .banners{
+        display: inline;
+        // 轮播图单个条目
+        .banner-item{
+            width: 100vw;
+            height: 100vh;
+            img{
+                width: 100vw;
+                height: auto;
+            }
+        }
+        .slick-dots{
+            opacity: 0 !important;  // 隐藏下方的点
+        }
+    }
+    // 遮罩
+    .mask{
+        background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5));
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        z-index: 98;
+    }
+    // 中间内容
+    .content{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 99;
+        text-align: center;
+        // 标题
+        .title{
+            font-size: 80px;
+            font-weight: bold;
+            color: white;
+            line-height: 70px;
+            font-family: alimama;
+            letter-spacing: 8px;
+            line-height: 105px;
+        }
+        // 副标题
+        .mini-title{
+            font-size: 25px;
+            font-weight: bold;
+            color: white;
+            line-height: 70px;
+            font-family: alimama;
+            line-height: 55px;
+            letter-spacing: 2px;
+        }
+        // 描述
+        .desc{
+            color: white;
+            font-family: alimama;
+            font-size: 20px;
+            letter-spacing: 3px;
+        }
+        .btn{
+            margin-top: 25px;
+            width: 8vw;
+            height: 6vh;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    }
+}

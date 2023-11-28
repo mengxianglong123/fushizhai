@@ -9,7 +9,7 @@ export default function Home() {
     return (
         <div  className='home'>
             {/* 满屏轮播图展示 */}
-            
+            <Banner/>
         </div>
     )
 }
