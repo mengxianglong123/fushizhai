@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import {useNavigate} from "react-router-dom"
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 import logo from "@/assets/imgs/logo-bigger.png"
@@ -12,19 +12,20 @@ const items: MenuProps['items'] = [
     },
     {
       label: '画意轩',
-      key: 'img-text'
+      key: 'imgtext'
     },
     {
       label: '修诗阁',
-      key: 'fix-poem'
+      key: 'fixpoem'
     }
   ];
 
 export default function NavTrans() {
-    const [current, setCurrent] = useState('mail');
+	const navigate = useNavigate()
+    const [current, _] = useState(sessionStorage.getItem("current_path"));
+
     const onClick: MenuProps['onClick'] = (e) => {
-        console.log('click ', e);
-        setCurrent(e.key);
+        navigate("/" + e.key)
     };
 
     return (
@@ -33,7 +34,7 @@ export default function NavTrans() {
             <img className='logo' src={logo} alt="" />
             {/* 跳转链接列表 */}
             <div className='links'>
-                <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
+                <Menu onClick={onClick} selectedKeys={[current ? current : ""]} mode="horizontal" items={items} />
             </div>
             
             {/* github跳转 */}

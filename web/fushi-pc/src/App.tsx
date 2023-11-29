@@ -1,8 +1,13 @@
 import './App.css'
 import Home from './views/Home/Home'
 import {ConfigProvider} from 'antd'
-function App() {
+import {useRoutes} from "react-router-dom"
+import routes from "./router/routes"
 
+
+function App() {
+	// 引入路由
+	const outlet = useRoutes(routes);
 	return (
 		<ConfigProvider
 			theme={{
@@ -12,8 +17,7 @@ function App() {
 				},
 			}}>
 			<div className='app'>
-				{/* 临时展示Home组件 */}
-				<Home/> 
+				{outlet}
 			</div>
 		</ConfigProvider>
 
