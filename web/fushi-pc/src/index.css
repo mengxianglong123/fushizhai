@@ -3,3 +3,7 @@
     src: url("./assets/fonts/alimama/CtT1UAN3Izpj.woff"),
         url("./assets/fonts/alimama/CtT1UAN3Izpj.woff2");
 }
+/* 全局图标配置 */
+.iconfont{
+    font-size: 16px;
+}

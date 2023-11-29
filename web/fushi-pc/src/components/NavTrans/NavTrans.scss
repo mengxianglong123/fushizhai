@@ -1,0 +1,68 @@
+.menu-trans{
+    background-color: rgba($color: #000000, $alpha: 0);
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    color: white;
+    width: 100vw;
+    height: 76px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 25px;
+    box-sizing: border-box;
+    // logo
+    .logo{
+        height: 65px;
+    }
+    // 链接
+    .links{
+        margin-left: 40px;
+        background-color: rgba($color: #000000, $alpha: 0);
+        .ant-menu{
+            background-color: rgba($color: #000000, $alpha: 0);
+            .ant-menu-item{
+                font-size: 18px;
+                color: white !important;
+                font-weight: bold;
+                
+            }
+            // 激活样式
+            .ant-menu-item-selected{
+                .ant-menu-title-content{
+                    color: #158bb8 !important;
+                }
+            }  
+        }
+        // 清除默认激活样式
+        .ant-menu-item-selected::after {
+            content: none;
+        }
+        .ant-menu-item-active::after{
+            content: none;
+        }
+        .ant-menu-item::after{
+            content: none;
+        } 
+    }
+    // github链接
+    .git{
+        position: absolute;
+        right: 15px;
+        a{
+            color: white;
+            text-decoration: none;
+            font-size: 17px;
+            line-height: 25px;
+            .iconfont{
+                font-size: 19px;
+                margin-right: 5px;
+                margin-left: 3px;
+            }
+            .icon-GitHub{
+                font-size: 25px;
+            }
+        }
+    }
+}

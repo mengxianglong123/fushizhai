@@ -4,7 +4,7 @@ import banner1 from "@/assets/imgs/banner1.png"
 import banner2 from "@/assets/imgs/banner2.jpg"
 import banner3 from "@/assets/imgs/banner3.jpg"
 import { Button } from 'antd'
-import { EditOutlined, LoginOutlined  } from '@ant-design/icons'
+import { EditOutlined  } from '@ant-design/icons'
 
 /**
  * 首页轮播图模块
