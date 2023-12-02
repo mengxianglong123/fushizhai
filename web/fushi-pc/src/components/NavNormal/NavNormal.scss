@@ -1,10 +1,10 @@
-.menu-trans{
-    background-color: rgba($color: #000000, $alpha: 0);
+.menu-normal{
+    background-color: white;
     position: fixed;
     z-index: 100;
     top: 0;
     left: 0;
-    color: white;
+    color: #333333;
     width: 100vw;
     height: 76px;
     display: flex;
@@ -12,6 +12,7 @@
     align-items: center;
     padding: 25px;
     box-sizing: border-box;
+    box-shadow: 0 1px 0 rgba(17,17,26,.1);
     // logo
     .logo{
         height: 65px;
@@ -25,7 +26,6 @@
             border: none !important;
             .ant-menu-item{
                 font-size: 18px;
-                color: white !important;
                 font-weight: bold;
                 
             }
@@ -40,7 +40,7 @@
                 .ant-menu-title-content{
                     color: #158bb8 !important;
                 }
-            }
+            }  
         }
         // 清除默认激活样式
         .ant-menu-item-selected::after {
@@ -58,7 +58,7 @@
         position: absolute;
         right: 35px;
         a{
-            color: white;
+            color: #555555;
             text-decoration: none;
             font-size: 17px;
             line-height: 25px;

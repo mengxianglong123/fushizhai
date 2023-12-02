@@ -1,5 +1,5 @@
 //使用onClick事件调用即可 target 为滚动目标对象的id
-export  default (target:string){
+export  default (target:string) => {
     //找到对应组件 若存在执行滚动
     let anchorElement = document.getElementById(`${target}`);
     // behavior 定义滚动动画，默认值为auto。

@@ -1,0 +1,99 @@
+.home-func{
+    width: 100vw;
+    overflow: hidden;
+    // 每个模块的公共样式
+    .func-item{
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        height: 500px;
+        align-items: center;
+        //  标题
+        .title{
+            font-size: 60px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #303133;
+            font-family: alimama;
+            letter-spacing: 8px;
+        }
+        // 描述
+        .desc{
+            font-size: 18px;
+            line-height: 35px;
+            color: #606266;
+            // 文字旁边的点
+            .iconfont{
+                font-weight: bolder;
+                line-height: 35px;
+                background-color: rgb(233 242 254)!important;
+                border-radius: 99999px;
+                color: #158bb8;
+                margin-right: 10px;
+            }
+        }
+        .btn{
+            margin-top: 19px;
+            height: 48px;
+            padding-left: 23px;
+            padding-right: 23px;
+            font-size: 18px;
+        }
+    }
+    // 画意轩
+    .imgtext{
+        background: linear-gradient(180deg,#f1edfe,rgba(120,209,241,0));
+        .left{
+            transform: translateX(-105px);
+            img{
+                width: 300px;
+            }
+        }
+        .right{
+            transform: translate(-40px, -35px);
+            // 标题
+            .title{}
+            // 描述
+            .desc{}
+        }
+    }
+    // 修诗阁
+    .fixpoem{
+        background: linear-gradient(180deg,#ffe9e6,rgba(255,164,114,0));
+        .left{
+            transform: translate(-35px, -10px);
+        }
+        .right{
+            img{
+                width: 350px;
+            }
+        }
+    }
+    // 思墨堂
+    .simo{
+        background: linear-gradient(180deg,#f0fdfd,rgba(223,255,220,0));
+        .left{
+            transform: translateX(-105px);
+            img{
+                width: 350px;
+            }
+        }
+        .right{
+            transform: translate(-25px, -35px);
+        }
+    }
+    .translation{
+        background-image: linear-gradient(0deg,#fff,#f4f8fd 14%,#dfeaff);
+        .left{
+            transform: translate(-35px, -15px);
+            .iconfont{
+                background-color: #f0fdfd !important;
+            }
+        }
+        .right{
+            img{
+                width: 350px;
+            }
+        }
+    }
+}

@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom"
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 import logo from "@/assets/imgs/logo-bigger.png"
-import "./NavTrans.scss"
+import "./NavNormal.scss"
 
 const items: MenuProps['items'] = [
 	{
@@ -28,8 +28,8 @@ const items: MenuProps['items'] = [
 	}
 ];
 
-export default function NavTrans() {
-	const navigate = useNavigate()
+export default function NavNormal() {
+    const navigate = useNavigate()
     const [current, _] = useState(sessionStorage.getItem("current_path"));
 
 	/**
@@ -41,7 +41,7 @@ export default function NavTrans() {
     };
 
     return (
-        <div className='menu-trans'>
+        <div className='menu-normal'>
             {/* logo */}
             <img className='logo' src={logo} alt="" />
             {/* 跳转链接列表 */}
@@ -50,10 +50,9 @@ export default function NavTrans() {
             </div>
             
             {/* github跳转 */}
-            <div className='git '>
+            <div className='git hover-color'>
                 <a className='hover-color' href="https://github.com/mengxianglong123/fushizhai"  target="_blank">
-                    <span className='iconfont icon-GitHub'></span>
-					GitHub仓库
+                    <span className='iconfont icon-GitHub'></span>GitHub仓库
                     <span className='iconfont icon-fenxiang'></span>
                 </a>
             </div>

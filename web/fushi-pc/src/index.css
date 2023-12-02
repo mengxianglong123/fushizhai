@@ -7,3 +7,7 @@
 .iconfont{
     font-size: 16px;
 }
+/* 全局hover颜色配置 */
+.hover-color:hover{
+    color: "#158bb8" !important;
+}

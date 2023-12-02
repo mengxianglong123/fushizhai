@@ -1,4 +1,4 @@
-import React,{Suspense, FC} from "react"
+import {Suspense, FC} from "react"
 import {lazy} from "react"
 import {Spin} from "antd"
 
@@ -34,6 +34,7 @@ interface BeforeRouteProps{
         path:string
     }
 }
+
 /**
  * 路由前置钩子
  * @param param0 

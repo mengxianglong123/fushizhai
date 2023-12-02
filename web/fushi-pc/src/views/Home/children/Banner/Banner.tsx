@@ -5,6 +5,7 @@ import banner2 from "@/assets/imgs/banner2.jpg"
 import banner3 from "@/assets/imgs/banner3.jpg"
 import { Button } from 'antd'
 import { EditOutlined  } from '@ant-design/icons'
+import jumpAndFlicker from '@/utils/jumpAndFlicker';
 
 /**
  * 首页轮播图模块
@@ -32,7 +33,7 @@ export default function Banner() {
                 <h1 className='title'>红笺小字 为你写诗</h1>
                 <h2 className='mini-title'>赋诗斋：一个基于AI的智能诗词创作平台</h2>
                 {/* <div className='desc'>赋诗斋：一个基于AI的智能诗词创作平台</div> */}
-                <Button className='btn' type="primary" icon={<EditOutlined />} size="large" ghost>赋诗一首</Button>
+                <Button className='btn' type="primary" icon={<EditOutlined />} size="large" ghost onClick={() => jumpAndFlicker("home-func")}>赋诗一首</Button>
             </div>
         </div>
     )

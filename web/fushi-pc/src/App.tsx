@@ -1,5 +1,4 @@
 import './App.css'
-import Home from './views/Home/Home'
 import {ConfigProvider} from 'antd'
 import {useRoutes} from "react-router-dom"
 import routes from "./router/routes"
