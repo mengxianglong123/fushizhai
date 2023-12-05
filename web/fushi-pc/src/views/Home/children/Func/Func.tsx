@@ -54,7 +54,7 @@ export default function Func() {
 			{/* 右侧文字 */}
 			<div className='right'>
 				<h1 className='title'>思墨堂</h1>
-				<div className='desc'><span className='iconfont icon-dian'/>思文寻意，墨香四溢</div>
+				<div className='desc'><span className='iconfont icon-dian'/>思文寻意，墨香四浮</div>
                 <div className='desc'><span className='iconfont icon-dian'/>一个思路起点，焕发无限灵感</div>
                 <div className='desc'><span className='iconfont icon-dian'/>更丝滑，更优雅的诗词灵感工具</div>
                 <Button type='primary' className='btn' icon={<RightCircleFilled/>} size="large">寻找灵感</Button>
