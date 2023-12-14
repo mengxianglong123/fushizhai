@@ -1,5 +1,15 @@
 .imgtext{
     .imgtext-main{
         margin-top: 78px;
+        .form{
+            background-color: white;
+            padding-top: 20px;
+            padding-bottom: 5px;
+            width: 60vw;
+            margin: 0 auto;
+            .img-text-form{
+               margin: 0 auto;
+            }
+        }
     }
 }

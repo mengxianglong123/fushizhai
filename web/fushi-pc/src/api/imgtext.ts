@@ -12,3 +12,17 @@ export const getRhymeRulesByType = (typeId: string) => http.get("/creation/getRh
  * @returns 
  */
 export const getRhymeBookNames = () => http.get("/creation/getRhymeBookNames")
+
+/**
+ * 获取规则的可以押的韵脚
+ * @param params 
+ * @returns 
+ */
+export const getPoemCanRhyme = (params:any) => http.get("/creation/getPoemCanRhyme", {params})
+
+/**
+ * 创作诗词
+ * @param params 
+ * @returns 
+ */
+export const createRhymePoem = (params:any) => http.post('/creation/createRhymePoem', params, {headers:{'Content-Type': 'application/x-www-form-urlencoded'}})

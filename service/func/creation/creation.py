@@ -32,7 +32,8 @@ class Creation:
         words = caption.ImageCaption().get_key_words(CUR_PATH + img_path)
         # todo 此处添加万物雅称转换
         # 2. 合并用户提示词
-        words = [*words, *Creation.split_words(add_words)]
+        if add_words is not None:
+            words = [*words, *Creation.split_words(add_words)]
         # 3. 将词汇进行扩展
         select_words = []
         for word in words:

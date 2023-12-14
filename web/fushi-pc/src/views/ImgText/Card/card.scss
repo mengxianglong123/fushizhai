@@ -1,0 +1,35 @@
+.imgtext-card{
+    width: 60vw;
+    margin: 40px auto;
+    background-color: #fff;
+    padding: 35px;
+    box-sizing: border-box;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 2px 2px rgba(10,16,20,.24), 0 0 2px rgba(10,16,20,.25);
+    background-image: url("../../../assets/imgs/texture.png"),url("../../../assets/imgs/mei.png"),url("../../../assets/imgs/he.png");
+    background-size: auto,14%,18%;
+    background-position: 0 0,100% 0,0 100%;
+    background-repeat: repeat,no-repeat,no-repeat;
+    // 标题
+    .title{
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 30px;
+        letter-spacing: 1px;
+        color: #d45;
+        margin-bottom: 45px;
+    }
+    // 正文
+    .content{
+        .content-line{
+            font-family: KaiTi,STKaiti;
+            font-size: 25px;
+            color: rgb(0, 0, 0);
+            text-shadow: rgba(0, 0, 0, 0.2) 0px 0px 0px;
+            line-height: 30px;
+            font-weight: 700;
+            margin: 15px auto;
+        }
+    }
+}

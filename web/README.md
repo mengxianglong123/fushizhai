@@ -16,3 +16,34 @@
 ### 3. React在ts环境下实现函数组件父传子
 
 https://blog.csdn.net/m0_46234046/article/details/134104681
+
+
+
+普通父传子：
+
+父组件
+
+```react
+    // 当前生成状态
+    const [loading, setLoading] = useState(false)
+    // 当前生成结果
+    const [result, setResult] = useState("红笺小字，为你写诗")
+    {/* 结果展示栏,每个变量需要单独传递 */}
+    <Card loading={loading} result={result}/>
+```
+
+子组件
+
+```react
+interface CardProps {
+    loading:boolean,
+    result:string
+}
+export default function Card(props:CardProps) {
+    
+    return (
+        <div>{props.result}</div>
+    )
+}
+```
+
