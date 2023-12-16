@@ -123,8 +123,7 @@ export default function ImgText() {
             if (res.code === 200) {
                 setRuleList(res.data)
             }
-        })
-        
+        })   
     }
 
     /**
@@ -154,7 +153,7 @@ export default function ImgText() {
                 </Select>
             </Modal>
 
-             {/* 暂时展示导航栏 */}
+             {/* 普通导航栏 */}
              <NavNormal/>
             <div className="imgtext-main">
                 {/* 标题 */}
