@@ -34,8 +34,6 @@ function Char(props:CharProps) {
         return false
     }
 
-    const suggestStyle = {display:"inline-block",border:"1px solid #dcdfe6",width:"25px",height:"25px",textAlign:"center",margin:"5px",fontSize:"16px",
-                        padding:"5px", borderRadius:"6px"}
 
     const {item, row, column, result} = props
 
@@ -55,7 +53,8 @@ function Char(props:CharProps) {
                             <div className='suggest-title' style={{fontWeight:"bold"}}>AI修改建议：</div>
                             <div className='suggest-list'>
                                 {err?.suggests?.slice(0, 10).map((s:any) => {  // 截取前十条作为修改建议
-                                    return <div style={suggestStyle} key={s} className='suggest-item'>{s}</div>
+                                    return <div style={{display:"inline-block",border:"1px solid #dcdfe6",width:"25px",height:"25px",textAlign:"center",margin:"5px",fontSize:"16px",
+                                    padding:"5px", borderRadius:"6px"}} key={s} className='suggest-item'>{s}</div>
                                 })}
                             </div>
                         </div>
