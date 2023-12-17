@@ -1,5 +1,22 @@
 .fixpoem{
     .fixpoem-main{
         margin-top: 76px;
+        display: flex;
+        .left{
+            width: 50vw;
+            background-color: white;
+            padding-top: 15px;
+            .fixpoem-form{
+                margin: 0 auto;
+            }
+        }
+        .right{
+            width: 50vw;
+            background-color: white;
+            background-image: url("../../assets/imgs/shan.png");
+            background-repeat: no-repeat;
+            
+            background-position: right 110%;
+        }
     }
 }

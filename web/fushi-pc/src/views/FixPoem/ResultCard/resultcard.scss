@@ -1,0 +1,31 @@
+.fixpoem-result{
+    padding: 15px;
+    .result-title{
+        font-size: 20px;
+        font-weight: bold;
+        color: #158bb8;
+        .iconfont{
+            font-size: 20px;
+            color: #158bb8;
+        }
+    }
+    .result-content{
+        margin: 30px auto;
+        width: 40%;
+        .fixpoem-char{
+            display: inline-block;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 23px;
+            font-weight: bold;
+            font-family: KaiTi,STKaiti;
+            // 
+            .fixpoem-char-item{
+                display: inline-block;
+            }
+            .fixpoem-char-err{
+                color: red;
+            }
+        }
+    }
+}

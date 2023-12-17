@@ -5,6 +5,7 @@ import {useState, useEffect} from "react"
 import {getRhymeRulesByType, getRhymeBookNames} from "@/api/imgtext"
 import { FixPoemForm } from "@/types/fixpoem";
 import { checkRhyme } from "@/api/fixpoem";
+import ResultCard from "./ResultCard/ResultCard";
 
 const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
@@ -19,9 +20,11 @@ export default function FixPoem() {
     // 韵书列表
     const [rhymeBooks, setRhymeBooks] = useState([])
     // 校验文本
-    const [poem, setPoem] = useState("")
+    const [poem, setPoem] = useState("红笺小字，为你写诗")
     // 校验结果
     const [result, setResult] = useState([])
+    // 校验状态
+    const [loading, setLoading] = useState(false)
 
     /**
      * 加载完成时执行
@@ -47,12 +50,18 @@ export default function FixPoem() {
      * @param values 
      */
     const onFinish = (values: any) => {
-        // 1.清除校验文本的回车和空格
+        // 1. 清除校验文本的回车和空格
         values.poem = values.poem.replace("\n","").replace(" ","")
-        // 2.发送请求，进行格律校验
+        // 2. 设置状态和原文
+        setLoading(true)
+        setPoem("校验中，请稍后")
+        
+        // 3. 发送请求，进行格律校验
         checkRhyme(values).then((res:any) => {
             if (res.code === 200) {
                 setResult(res.data)
+                setLoading(false)
+                setPoem(values.poem)
             }
         })
     }
@@ -160,7 +169,7 @@ export default function FixPoem() {
                 </div>
                 {/* 右侧校验结果 */}
                 <div className="right">
-
+                    <ResultCard loading={loading} poem={poem} result={result}/>
                 </div>
             </div>
 
