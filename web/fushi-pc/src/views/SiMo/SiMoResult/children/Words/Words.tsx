@@ -19,6 +19,9 @@ export default function Words(props:WordsProps) {
     // 加载状态
     const [loading, setLoading] = useState(false)
 
+    /**
+     * 
+     */
     useEffect(() => {
         refresh()
     }, [])

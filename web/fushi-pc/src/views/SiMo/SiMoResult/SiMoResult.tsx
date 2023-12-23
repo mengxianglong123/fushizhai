@@ -5,6 +5,7 @@ import logo from "@/assets/imgs/logo.png"
 import { Input} from 'antd'
 import "./simoResult.scss"
 import Words from './children/Words/Words'
+import Sentences from './children/Sentences/Sentences'
 
 const { Search } = Input;
 
@@ -46,13 +47,14 @@ export default function SiMoResult() {
 				{/* 搜索框 */}
 				<div className="search-input">
 					<Search
-					placeholder="请输入灵感火花"
-					allowClear
-					enterButton="寻意思墨"
-					size="large"
-					className="input"
-					onSearch={onSearch}
-                    value={content}
+                        placeholder="请输入灵感火花"
+                        allowClear
+                        enterButton="寻意思墨"
+                        size="large"
+                        className="input"
+                        onSearch={onSearch}
+                        defaultValue={content}
+                        
 					/>
 				</div>
             </div>
@@ -61,7 +63,7 @@ export default function SiMoResult() {
                 {/* 词汇 */}
                 <Words searchContent={content}/>
                 {/* 诗句 */}
-
+                <Sentences searchContent={content}/>
                 {/* 诗词 */}
             </div>
         </div>
