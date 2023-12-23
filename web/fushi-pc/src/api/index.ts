@@ -5,7 +5,7 @@ import { baseURL } from '@/config/common';
 
 const http = axios.create({
   baseURL: baseURL,
-  timeout: 5000
+  timeout: 10000
 })
 
 // 响应拦截

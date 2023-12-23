@@ -10,6 +10,8 @@ const ImgText = lazy(() => import("@/views/ImgText/ImgText"))
 const FixPoem = lazy(() => import("@/views/FixPoem/FixPoem"))
 // 引入思墨堂
 const SiMo = lazy(() => import("@/views/SiMo/SiMo"))
+// 引入思墨堂结果页
+const SiMoResult  = lazy(() => import("@/views/SiMo/SiMoResult/SiMoResult"))
 // 引入译书园
 const Translation = lazy(() => import("@/views/Translation/Translation"))
 
@@ -66,6 +68,11 @@ export default [
         // 思墨堂
         path:"/simo",
         element:<BeforeRoute data={{children:withLoadingComponent(<SiMo/>), path:"simo"}}/>
+    },
+    {
+        // 思墨堂结果页
+        path:"/simoResult/:content",
+        element:<BeforeRoute data={{children:withLoadingComponent(<SiMoResult/>), path:"simoResult"}}/>
     },
     {
         // 译书园

@@ -1,0 +1,33 @@
+.simo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    .search{
+        width: 100vw;
+        // 顶部
+        .top{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            img{
+                width: 65px;
+            }
+            span{
+                margin-left: 5px;
+                color: #158bb8;
+                font-family: alimama;
+                font-size: 45px;
+                font-weight: bold;
+                letter-spacing: 5px;
+            }
+        }
+        // 输入框
+        .search-input{
+            margin: 0 auto;
+            width: 45vw;
+        }
+    }
+}

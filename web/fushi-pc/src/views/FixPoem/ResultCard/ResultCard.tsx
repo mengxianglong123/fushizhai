@@ -81,7 +81,6 @@ export default function ResultCard(props:ResultCardProps) {
      * @param poem 
      */
     const splitPoem = (poem:string) => {
-        console.log()
         let poems = poem.split(/[,，。？！!]/)
         if(poems[-1] == "") return poems.slice(0, -1)
         return poems

@@ -1,0 +1,60 @@
+.simo-words{
+    width: 60vw;
+    margin: 25px auto;
+    background-color: white;
+    box-sizing: border-box;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow:
+  2.8px 2.8px 6.9px -39px rgba(21, 139, 184, 0.015),
+  6.7px 6.7px 16.7px -39px rgba(21, 139, 184, 0.021),
+  12.5px 12.5px 31.4px -39px rgba(21, 139, 184, 0.026),
+  22.3px 22.3px 56.1px -39px rgba(21, 139, 184, 0.03),
+  41.8px 41.8px 104.9px -39px rgba(21, 139, 184, 0.036),
+  100px 100px 251px -39px rgba(21, 139, 184, 0.05)
+;
+    // 头部
+    .header{
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        // 标题
+        .title{
+            font-size: 20px;
+            font-weight: bold;
+            color: #158bb8;
+            .iconfont{
+                font-size: 23px;
+                font-weight: bold;
+                margin-right: 3px;
+                position: relative;
+                top: 2px;
+            }
+        }
+        // 刷新按钮
+        .refresh{
+            cursor: pointer;
+            color: #158bb8;
+            border: #158bb8 solid 1px;
+            border-radius: 6px;
+            padding: 8px;
+            letter-spacing: 1px;
+            .icon{
+                margin-right: 5px;
+            }
+        }
+    }
+    // 结果列表
+    .content-list{
+        // 标签
+        .tag{
+            font-size: 16px;
+            padding: 5px;
+            margin: 5px;
+        }
+        .loading-item{
+            margin: 0 auto;
+            display: block;
+        }
+    }
+}

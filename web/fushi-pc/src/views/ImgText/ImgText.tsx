@@ -109,7 +109,6 @@ export default function ImgText() {
         setIsModalOpen(true)
         // 4. 将当前收集到的表单值赋值给最终要提交的数据
         setFormData({...values})
-        console.log('Success:', values);
     }
 
 
