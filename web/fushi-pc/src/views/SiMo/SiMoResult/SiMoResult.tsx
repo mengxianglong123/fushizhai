@@ -6,6 +6,7 @@ import { Input} from 'antd'
 import "./simoResult.scss"
 import Words from './children/Words/Words'
 import Sentences from './children/Sentences/Sentences'
+import Poems from './children/Poems/Poems'
 
 const { Search } = Input;
 
@@ -65,6 +66,7 @@ export default function SiMoResult() {
                 {/* 诗句 */}
                 <Sentences searchContent={content}/>
                 {/* 诗词 */}
+                <Poems searchContent={content}/>
             </div>
         </div>
     )

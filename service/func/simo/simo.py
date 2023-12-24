@@ -50,7 +50,6 @@ class SiMo:
         # 获取扩展词汇
         words = self.get_vector_words(word)
         words = [word, *words]
-        print(words)
         # 查询句子,并打乱顺序
         sentences = menglang.get_sentences(words)
         random.shuffle(sentences)
