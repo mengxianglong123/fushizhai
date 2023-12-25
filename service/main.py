@@ -11,5 +11,5 @@ app.register_blueprint(creation.creation)  # 创作模块
 app.register_blueprint(file.file)  # 文件服务
 app.register_blueprint(simo.simo)
 app.register_blueprint(translation.translation)
-
+# todo 添加初始化，将所有模型加载进内存
 app.run(host="0.0.0.0")

@@ -1,0 +1,49 @@
+.translation{
+    .card{
+        margin: 95px auto;
+        width: 80vw;
+        overflow: hidden;
+        box-shadow:
+        2.8px 2.8px 6.9px -39px rgba(21, 139, 184, 0.015),
+        6.7px 6.7px 16.7px -39px rgba(21, 139, 184, 0.021),
+        12.5px 12.5px 31.4px -39px rgba(21, 139, 184, 0.026),
+        22.3px 22.3px 56.1px -39px rgba(21, 139, 184, 0.03),
+        41.8px 41.8px 104.9px -39px rgba(21, 139, 184, 0.036),
+        100px 100px 251px -39px rgba(21, 139, 184, 0.05)
+        ;
+        border-radius: 15px;
+        background-color: white;
+        box-sizing: border-box;
+        display: flex;
+        background-image: url("../../assets/imgs/zhu.png");
+        background-repeat: no-repeat;
+        background-position: right 110%;
+        .left{
+            width: 40vw;
+            padding: 25px;
+            min-height: 500px;
+            position: relative;
+            .btn{
+                position: absolute;
+                right: -10px;
+                bottom: -20px;
+            }
+            .input{
+                width: 40vw;
+                height: 500px;
+                font-size: 17px;
+            }
+        }
+        .right{
+            width: 40vw;
+            background-color: rgba(169,173,204,.1);
+            font-size: 20px;
+            line-height: 25px;
+            color: #333333;
+            padding: 15px;
+            letter-spacing: 1px;
+            font-weight: bold;
+            font-family: KaiTi,STKaiti;
+        }
+    }
+}
