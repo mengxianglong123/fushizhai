@@ -2,6 +2,7 @@ import './App.css'
 import {ConfigProvider} from 'antd'
 import {useRoutes} from "react-router-dom"
 import routes from "./router/routes"
+import Footer from './components/Footer/Footer'
 
 
 function App() {
@@ -17,6 +18,8 @@ function App() {
 			}}>
 			<div className='app'>
 				{outlet}
+				{/* 底部 */}
+				<Footer/>
 			</div>
 		</ConfigProvider>
 

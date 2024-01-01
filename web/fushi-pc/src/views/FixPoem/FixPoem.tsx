@@ -89,7 +89,7 @@ export default function FixPoem() {
     }
 
     return (
-        <div className="fixpoem">
+        <div className="fixpoem page-full">
             {/* 普通导航栏 */}
             <NavNormal/>
             {/* 主要内容 */}

@@ -32,7 +32,7 @@ export default function Translation() {
     };
 
     return (
-        <div className='translation'>
+        <div className='translation page-full'>
             {/* 导航栏 */}
             <NavNormal/>
             {/* 卡片 */}

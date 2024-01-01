@@ -14,3 +14,9 @@
 body{
     background-color: #f0f0f0;
 }
+.app{
+    overflow: hidden;
+}
+.page-full{
+    min-height: 100vh;
+}
